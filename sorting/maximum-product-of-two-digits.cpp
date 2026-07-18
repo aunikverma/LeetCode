@@ -1,0 +1,12 @@
+class Solution {
+public:
+    int maxProduct(int n) {
+        vector<int> a;
+        while (n) {
+            a.push_back(n % 10);
+            n /= 10;
+        }
+        sort(a.rbegin(), a.rend());
+        return (a[0] * a[1]);
+    }
+};
