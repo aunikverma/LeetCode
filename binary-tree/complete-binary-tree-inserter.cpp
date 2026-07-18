@@ -1,0 +1,57 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left),
+ * right(right) {}
+ * };
+ */
+class CBTInserter {
+public:
+    TreeNode* ans_root = NULL;
+    CBTInserter(TreeNode* root) { ans_root = root; }
+
+    int insert(int val) {
+        if (ans_root == NULL) {
+            ans_root = new TreeNode(val);
+            return val;
+        }
+        queue<TreeNode*> q;
+        q.push(ans_root);
+        while (!q.empty()) {
+            int n = q.size();
+            TreeNode* curr = NULL;
+            while (n) {
+                curr = q.front();
+                q.pop();
+                if (curr->left) {
+                    q.push(curr->left);
+                } else {
+                    curr->left = new TreeNode(val);
+                    return curr->val;
+                }
+                if (curr->right) {
+                    q.push(curr->right);
+                } else {
+                    curr->right = new TreeNode(val);
+                    return curr->val;
+                }
+                n--;
+            }
+        }
+        return -1;
+    }
+
+    TreeNode* get_root() { return ans_root; }
+};
+
+/**
+ * Your CBTInserter object will be instantiated and called as such:
+ * CBTInserter* obj = new CBTInserter(root);
+ * int param_1 = obj->insert(val);
+ * TreeNode* param_2 = obj->get_root();
+ */
