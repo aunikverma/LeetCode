@@ -15,8 +15,7 @@ public:
             }
             // if ans is not empty and c < ans[n - 1] and count[ans[n - 1]]
             // means duplicate
-            while (!ans.empty() && c < ans.back() &&
-                   count[ans.back() - 'a'] > 0) {
+            while (!ans.empty() && c < ans.back() && count[ans.back() - 'a'] > 0) {
                 used[ans.back() - 'a'] = false;
                 ans.pop_back();
             }
