@@ -1,27 +1,31 @@
 class Solution {
 public:
     string smallestSubsequence(string s) {
-        vector<int> count(26, 0);
-        vector<bool> used(26, false);
-        string ans = "";
+        vector<int> freq(26, 0);
         for (char c : s) {
-            count[c - 'a']++;
+            freq[c - 'a'] += 1;
         }
+        vector<bool> used(26, false);
         stack<char> st;
+
         for (char c : s) {
-            count[c - 'a']--;
+            freq[c - 'a'] -= 1;
             if (used[c - 'a']) {
                 continue;
             }
-            // if ans is not empty and c < ans[n - 1] and count[ans[n - 1]]
-            // means duplicate
-            while (!ans.empty() && c < ans.back() && count[ans.back() - 'a'] > 0) {
-                used[ans.back() - 'a'] = false;
-                ans.pop_back();
+            while (!st.empty() && c < st.top() && freq[st.top() - 'a'] > 0) {
+                used[st.top() - 'a'] = false;
+                st.pop();
             }
-            ans.push_back(c);
+            st.push(c);
             used[c - 'a'] = true;
         }
+        string ans = "";
+        while (!st.empty()) {
+            ans += st.top();
+            st.pop();
+        }
+        reverse(ans.begin(), ans.end());
         return ans;
     }
 };
