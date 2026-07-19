@@ -13,7 +13,8 @@ public:
             if (used[c - 'a']) {
                 continue;
             }
-            // if ans is not empty and c < ans[n - 1] and count[ans[n - 1]] means duplicate
+            // if ans is not empty and c < ans[n - 1] and count[ans[n - 1]]
+            // means duplicate
             while (!ans.empty() && c < ans.back() &&
                    count[ans.back() - 'a'] > 0) {
                 used[ans.back() - 'a'] = false;
