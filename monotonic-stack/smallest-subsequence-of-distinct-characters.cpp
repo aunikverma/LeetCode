@@ -9,10 +9,13 @@ public:
         stack<char> st;
 
         for (char c : s) {
+            // sub from freq
             freq[c - 'a'] -= 1;
+            // if used continue
             if (used[c - 'a']) {
                 continue;
             }
+            // if less than st.top() and present further in string
             while (!st.empty() && c < st.top() && freq[st.top() - 'a'] > 0) {
                 used[st.top() - 'a'] = false;
                 st.pop();
