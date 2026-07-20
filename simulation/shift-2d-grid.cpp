@@ -4,27 +4,21 @@ public:
         if (k == 0) {
             return grid;
         }
-        int m = grid.size(), n = grid[0].size();
-        vector<int> rotate(m * n, 0);
-        // fill rotate
-        int ind = 0;
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                rotate[ind++] = grid[i][j];
+        int rows = grid.size(), cols = grid[0].size();
+        int n = rows * cols;
+        k = k % n;
+        // reverse lambda function
+        auto reverse = [&](int i, int j) {
+            while (i < j) {
+                swap(grid[i / cols][i % cols], grid[j / cols][j % cols]);
+                i++;
+                j--;
             }
-        }
-        // rotate k times
-        k = k % (m * n);
-        reverse(rotate.begin(), rotate.end());
-        reverse(rotate.begin(), rotate.begin() + k);
-        reverse(rotate.begin() + k, rotate.end());
-        // fill back to the grid
-        ind = 0;
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                grid[i][j] = rotate[ind++];
-            }
-        }
+        };
+        // similarly like rotate array
+        reverse(0, n - 1);
+        reverse(0, k - 1);
+        reverse(k, n - 1);
         return grid;
     }
 };
