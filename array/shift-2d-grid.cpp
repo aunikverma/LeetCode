@@ -1,22 +1,29 @@
 class Solution {
 public:
     vector<vector<int>> shiftGrid(vector<vector<int>>& grid, int k) {
+        if (k == 0) {
+            return grid;
+        }
         int m = grid.size(), n = grid[0].size();
-        for (int i = 0; i < k; i++) {
-            // swapping to i to i + 1
-            for (int i = 0; i < m; i++) {
-                int last = grid[i][n - 1];
-                for (int j = n - 1; j >= 1; j--) {
-                    grid[i][j] = grid[i][j - 1];
-                }
-                grid[i][0] = last;
+        vector<int> rotate(m * n, 0);
+        // fill rotate
+        int ind = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                rotate[ind++] = grid[i][j];
             }
-            // now first col j to j + 1
-            int last = grid[m - 1][0];
-            for (int i = m - 1; i >= 1; i--) {
-                grid[i][0] = grid[i - 1][0];
+        }
+        // rotate k times
+        k = k % (m * n);
+        reverse(rotate.begin(), rotate.end());
+        reverse(rotate.begin(), rotate.begin() + k);
+        reverse(rotate.begin() + k, rotate.end());
+        // fill back to the grid
+        ind = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                grid[i][j] = rotate[ind++];
             }
-            grid[0][0] = last;
         }
         return grid;
     }
