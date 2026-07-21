@@ -19,6 +19,7 @@ public:
             }
         }
         int ans = ones;
+        // since zero before and after ones will be converted to ones
         for (int i = 1; i < zeroBlock.size(); i++) {
             ans = max(ans, ones + zeroBlock[i - 1] + zeroBlock[i]);
         }
