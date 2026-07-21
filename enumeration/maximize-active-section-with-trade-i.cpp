@@ -2,7 +2,9 @@ class Solution {
 public:
     int maxActiveSectionsAfterTrade(string s) {
         vector<int> zeroBlock;
+        // no of ones
         int ones = 0;
+        // counted zero continuous blocks
         for (int i = 0; i < s.length(); i++) {
             if (s[i] == '0') {
                 int count = 0;
