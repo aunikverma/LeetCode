@@ -1,7 +1,7 @@
 class Solution {
 public:
-    int m, n;
-    int solveTabSpace(vector<vector<int>>& matrix) {
+    int countSquares(vector<vector<int>>& matrix) {
+        int m = matrix.size(), n = matrix[0].size();
         vector<int> curr(n, 0);
         vector<int> next(n, 0);
 
@@ -23,11 +23,5 @@ public:
             next = curr;
         }
         return ans;
-    }
-
-    int countSquares(vector<vector<int>>& matrix) {
-        m = matrix.size();
-        n = matrix[0].size();
-        return solveTabSpace(matrix);
     }
 };
