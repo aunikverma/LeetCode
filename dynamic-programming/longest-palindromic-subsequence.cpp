@@ -1,25 +1,26 @@
 class Solution {
 public:
-    int solveTabSpace(string a, string b) {
-        int n = a.length();
-        vector<int> curr(n + 1, 0);
-        vector<int> next(n + 1, 0);
-        for (int i = n - 1; i >= 0; i--) {
-            for (int j = n - 1; j >= 0; j--) {
-                if (a[i] == b[j]) {
-                    curr[j] = 1 + next[j + 1];
-                } else {
-                    curr[j] = max(next[j], curr[j + 1]);
-                }
-            }
-            next = curr;
+    int solve(int i, int j, string& s, vector<vector<int>>& dp) {
+        // even
+        if (j < i) {
+            return 0;
         }
-        return curr[0];
+        // odd
+        if (j == i) {
+            return 1;
+        }
+        if (dp[i][j] != -1) {
+            return dp[i][j];
+        }
+        if (s[i] == s[j]) {
+            return dp[i][j] = 2 + solve(i + 1, j - 1, s, dp);
+        }
+        return dp[i][j] = max(solve(i + 1, j, s, dp), solve(i, j - 1, s, dp));
     }
 
     int longestPalindromeSubseq(string s) {
-        string rev_s = s;
-        reverse(rev_s.begin(), rev_s.end());
-        return solveTabSpace(s, rev_s);
+        int n = s.length();
+        vector<vector<int>> dp(n, vector<int>(n, -1));
+        return solve(0, n - 1, s, dp);
     }
 };
