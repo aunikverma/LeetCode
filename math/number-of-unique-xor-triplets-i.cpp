@@ -14,6 +14,7 @@ public:
             }
             return count;
         };
+        // max value = 2 ^ most significant bit
         return (1 << msb(n));
     }
 };
