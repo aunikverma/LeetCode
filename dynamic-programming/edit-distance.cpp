@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int minDistance(string word1, string word2) {
+    int minDistance(string a, string b) {
         int m = a.length(), n = b.length();
         // base case
         if (m == 0) {
