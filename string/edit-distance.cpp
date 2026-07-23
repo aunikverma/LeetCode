@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int solveTabSpace(string& a, string& b) {
+    int minDistance(string word1, string word2) {
         int m = a.length(), n = b.length();
         // base case
         if (m == 0) {
@@ -35,9 +35,5 @@ public:
             next = curr;
         }
         return curr[0];
-    }
-
-    int minDistance(string word1, string word2) {
-        return solveTabSpace(word1, word2);
     }
 };
