@@ -3,7 +3,7 @@ public:
     int minSubArrayLen(int target, vector<int>& nums) {
         int n = nums.size();
         int sum = 0;
-        int size = n + 1;
+        int size = INT_MAX;
 
         int left = 0, right = 0;
         for (int right = 0; right < n; right++) {
@@ -16,6 +16,6 @@ public:
                 left++;
             }
         }
-        return (size < n ? size : 0);
+        return (size != INT_MAX ? size : 0);
     }
 };
