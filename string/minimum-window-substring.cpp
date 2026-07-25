@@ -2,9 +2,6 @@ class Solution {
 public:
     string minWindow(string s, string t) {
         // base case
-        if (s == t) {
-            return s;
-        }
         if (t.length() > s.length()) {
             return "";
         }
@@ -17,7 +14,7 @@ public:
         int countReqd = t.length();
         int left = 0;
         int windowSize = INT_MAX;
-        string ans = "";
+        int start = -1;
 
         for (int right = 0; right < s.length(); right++) {
             // subtract in map
@@ -33,7 +30,7 @@ public:
                     // new window
                     if (windowSize > (right - left + 1)) {
                         windowSize = (right - left + 1);
-                        ans = s.substr(left, windowSize);
+                        start = left;
                     }
                     // update in map
                     mp[s[left]] += 1;
@@ -43,6 +40,12 @@ public:
                     }
                     left += 1;
                 }
+            }
+        }
+        string ans = "";
+        if (start != -1) {
+            for (int i = start; i < start + windowSize; i++) {
+                ans += s[i];
             }
         }
         return ans;
