@@ -1,15 +1,24 @@
 class Solution {
 public:
-    bool containsNearbyDuplicate(vector<int>& nums, int k) {
-        if (k <= 0 || nums.size() <= 1) {
+    bool containsNearbyDuplicate(vector<int>& s, int k) {
+        // base case
+        if (k <= 0 || s.size() <= 1) {
             return false;
         }
-        unordered_map<int, int> mp; // no and index
-        for (int i = 0; i < nums.size(); i++) {
-            if (mp.find(nums[i]) != mp.end() && i - mp[nums[i]] <= k) {
-                return true;
+        int left = 0;
+        unordered_map<int, int> mp;
+
+        for (int right = 0; right < s.size(); right++) {
+            mp[s[right]] += 1;
+            if (mp[s[right]] > 1) {
+                while (mp[s[right]] > 1) {
+                    if (abs(right - left) <= k) {
+                        return true;
+                    }
+                    mp[s[left]] -= 1;
+                    left += 1;
+                }
             }
-            mp[nums[i]] = i;
         }
         return false;
     }
