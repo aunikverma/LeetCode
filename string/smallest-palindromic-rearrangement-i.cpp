@@ -15,7 +15,6 @@ public:
                 }
             }
         }
-
         // making similar
         int l = 0, r = s.length() - 1;
         while (l < r) {
