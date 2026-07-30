@@ -19,3 +19,5 @@ public:
         return ans;
     }
 };
+// since we have 8 keys to map chars
+// for min first 8 to 1 then to 2
