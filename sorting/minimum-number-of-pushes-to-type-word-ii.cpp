@@ -11,17 +11,10 @@ public:
             }
         }
         sort(freq.rbegin(), freq.rend());
-        int count = 0;
         int push = 1;
         for (int i = 0; i < 26; i++) {
-            if (freq[i] > 0) {
-                ans += freq[i] * push;
-                count += 1;
-            }
-            if (count % 8 == 0) {
-                count = 0;
-                push += 1;
-            }
+            push = (i / 8) + 1;
+            ans += freq[i] * push;
         }
         return ans;
     }
