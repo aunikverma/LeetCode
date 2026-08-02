@@ -1,27 +1,32 @@
 class Solution {
 public:
-    int n;
-    int t[23][23];
-    
-    //Player1 - Player2
-    int maxDiff(vector<int>& nums, int l, int r) {
-        
-        if(l == r)
-            return nums[l];
-        
-        if(t[l][r] != -1)
-            return t[l][r];
-        
-        int take_left  = nums[l] - maxDiff(nums, l+1, r);
-        int take_right = nums[r] - maxDiff(nums, l, r-1);
-        
-        return t[l][r] = max(take_left, take_right);
+    int dp[20][20][2];
+
+    int solve(int i, int j, int turn, vector<int>& nums) {
+        if (i > j) {
+            return 0;
+        }
+        if (dp[i][j][turn] != -1) {
+            return dp[i][j][turn];
+        }
+        if (turn) {
+            int left = nums[i] + solve(i + 1, j, 1 - turn, nums);
+            int right = nums[j] + solve(i, j - 1, 1 - turn, nums);
+            return dp[i][j][turn] = max(left, right);
+        } else {
+            if (nums[i] > nums[j]) {
+                return dp[i][j][turn] =
+                           (-nums[i] + solve(i + 1, j, 1 - turn, nums));
+            } else {
+                return dp[i][j][turn] =
+                           (-nums[j] + solve(i, j - 1, 1 - turn, nums));
+            }
+        }
     }
-    
+
     bool predictTheWinner(vector<int>& nums) {
-        n = nums.size();
-        memset(t, -1, sizeof(t));
-        return maxDiff(nums, 0, n-1) >= 0;
-            
+        memset(dp, -1, sizeof(dp));
+        int ans = solve(0, nums.size() - 1, 1, nums);
+        return (ans >= 0);
     }
 };
