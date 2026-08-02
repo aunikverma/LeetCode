@@ -24,9 +24,8 @@ public:
     }
 
     bool predictTheWinner(vector<int>& nums) {
-    memset(dp, -1, sizeof(dp));
-    int ans = solve(0, nums.size() - 1, 1, nums);
-    return (ans > 0);
-}
-}
-;
+        memset(dp, -1, sizeof(dp));
+        int ans = solve(0, nums.size() - 1, 1, nums);
+        return (ans >= 0);
+    }
+};
