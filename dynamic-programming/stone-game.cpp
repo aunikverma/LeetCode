@@ -1,6 +1,7 @@
 class Solution {
 public:
-    int solve(int i, int j, int turn, vector<int>& piles, vector<vector<vector<int>>>& dp) {
+    int solve(int i, int j, int turn, vector<int>& piles,
+              vector<vector<vector<int>>>& dp) {
         if (i > j) {
             return 0;
         }
@@ -19,7 +20,8 @@ public:
 
     bool stoneGame(vector<int>& piles) {
         int n = piles.size();
-        vector<vector<vector<int>>> dp(n + 1, vector<vector<int>>(n + 1, vector<int>(3, -1)));
+        vector<vector<vector<int>>> dp(
+            n + 1, vector<vector<int>>(n + 1, vector<int>(3, -1)));
         return solve(0, n - 1, 1, piles, dp);
     }
 };
