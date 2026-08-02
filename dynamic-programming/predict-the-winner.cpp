@@ -1,31 +1,25 @@
 class Solution {
 public:
-    int dp[20][20][2];
+    int dp[20][20];
 
-    int solve(int i, int j, int turn, vector<int>& nums) {
+    int solve(int i, int j, vector<int>& nums) {
         if (i > j) {
             return 0;
         }
         if (i == j) {
             return nums[i];
         }
-        if (dp[i][j][turn] != -1) {
-            return dp[i][j][turn];
+        if (dp[i][j] != -1) {
+            return dp[i][j];
         }
-        if (turn) {
-            int left = nums[i] + solve(i + 1, j, 1 - turn, nums);
-            int right = nums[j] + solve(i, j - 1, 1 - turn, nums);
-            return dp[i][j][turn] = max(left, right);
-        } else {
-            int left = -nums[i] + solve(i + 1, j, 1 - turn, nums);
-            int right = -nums[j] + solve(i, j - 1, 1 - turn, nums);
-            return dp[i][j][turn] = min(left, right);
-        }
+        int left = nums[i] - solve(i + 1, j, nums);
+        int right = nums[j] - solve(i, j - 1, nums);
+        return dp[i][j] = max(left, right);
     }
 
     bool predictTheWinner(vector<int>& nums) {
         memset(dp, -1, sizeof(dp));
-        int ans = solve(0, nums.size() - 1, 1, nums);
+        int ans = solve(0, nums.size() - 1, nums);
         return (ans >= 0);
     }
 };
