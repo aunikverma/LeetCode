@@ -17,9 +17,9 @@ public:
             int right = nums[j] + solve(i, j - 1, 1 - turn, nums);
             return dp[i][j][turn] = max(left, right);
         } else {
-            return dp[i][j][turn] =
-                       min((-nums[i] + solve(i + 1, j, 1 - turn, nums)),
-                           (-nums[j] + solve(i, j - 1, 1 - turn, nums)));
+            int left = -nums[i] + solve(i + 1, j, 1 - turn, nums);
+            int right = -nums[j] + solve(i, j - 1, 1 - turn, nums);
+            return dp[i][j][turn] = min(left, right);
         }
     }
 
