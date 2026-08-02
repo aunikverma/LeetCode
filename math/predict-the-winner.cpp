@@ -1,30 +1,32 @@
 class Solution {
 public:
-    int dp[20][20];
-    int solve(int i, int j, vector<int>& nums) {
+    int dp[20][20][2];
+
+    int solve(int i, int j, int turn, vector<int>& nums) {
         if (i > j) {
             return 0;
         }
         if (i == j) {
             return nums[i];
         }
-        if (dp[i][j] != -1) {
-            return dp[i][j];
+        if (dp[i][j][turn] != -1) {
+            return dp[i][j][turn];
         }
-        int take_left =
-            nums[i] + min(solve(i + 2, j, nums), solve(i + 1, j - 1, nums));
-        int take_right =
-            nums[j] + min(solve(i + 1, j - 1, nums), solve(i, j - 2, nums));
-        return dp[i][j] = max(take_left, take_right);
+        if (turn) {
+            int left = nums[i] + solve(i + 1, j, 1 - turn, nums);
+            int right = nums[j] + solve(i, j - 1, 1 - turn, nums);
+            return dp[i][j][turn] = max(left, right);
+        } else {
+            return dp[i][j][turn] =
+                       min((-nums[i] + solve(i + 1, j, 1 - turn, nums)),
+                           (-nums[j] + solve(i, j - 1, 1 - turn, nums)));
+        }
     }
 
     bool predictTheWinner(vector<int>& nums) {
-        memset(dp, -1, sizeof(dp));
-        int n = nums.size();
-        int total = accumulate(nums.begin(), nums.end(), 0);
-        int p1 = solve(0, n - 1, nums);
-        int p2 = total - p1;
-        return (p1 >= p2);
-    }
-};
-// approach 1
+    memset(dp, -1, sizeof(dp));
+    int ans = solve(0, nums.size() - 1, 1, nums);
+    return (ans > 0);
+}
+}
+;
