@@ -11,8 +11,7 @@ private:
 
 public:
     int smallestNumber(int n, int t) {
-        while(digit(n) % t != 0)
-        {
+        while (digit(n) % t != 0) {
             n++;
         }
         return n;
