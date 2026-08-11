@@ -6,7 +6,7 @@ public:
         for (int i : nums) {
             mp[i] += 1;
         }
-        int maxi = INT_MIN;
+        int maxi = nums[0];
         int i = 1;
         while (i < n) {
             if (nums[i] == nums[i - 1] + 1) {
