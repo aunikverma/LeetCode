@@ -2,27 +2,21 @@ class Solution {
 public:
     int missingInteger(vector<int>& nums) {
         int n = nums.size();
+        int sum = nums[0];
         unordered_map<int, int> mp;
         for (int i : nums) {
             mp[i] += 1;
         }
-        int maxi = nums[0];
-        int i = 1;
-        while (i < n) {
+        for (int i = 1; i < n; i++) {
             if (nums[i] == nums[i - 1] + 1) {
-                int sum = nums[i - 1];
-                while (i < n && (nums[i - 1] + 1) == nums[i]) {
-                    sum += nums[i];
-                    i++;
-                }
-                maxi = max(maxi, sum);
+                sum += nums[i];
             } else {
-                i++;
+                break;
             }
         }
-        while (mp.find(maxi) != mp.end()) {
-            maxi += 1;
+        while (mp.find(sum) != mp.end()) {
+            sum += 1;
         }
-        return maxi;
+        return sum;
     }
 };
