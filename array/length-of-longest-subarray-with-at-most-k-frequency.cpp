@@ -9,17 +9,12 @@ public:
             // add in map
             int val = nums[right];
             mp[val] += 1;
-            // if freq greater than k
-            if (mp[val] > k) {
-                int freq = mp[val];
-                while (left < n && freq > k) {
-                    mp[nums[left]] -= 1;
-                    if (mp[nums[left]] == val) {
-                        freq -= 1;
-                    }
-                    left++;
-                }
+            // if freq is greater
+            while (mp[val] > k) {
+                mp[nums[left]] -= 1;
+                left++;
             }
+            // update maximum
             longest = max(longest, (right - left + 1));
         }
         return longest;
