@@ -1,20 +1,25 @@
 class Solution {
 public:
+    unordered_map<long long, int> dp;
+
+    int solve(int i, int val, vector<int>& nums) {
+        if (i >= nums.size()) {
+            return (val > 0 ? 0 : INT_MIN);
+        }
+        long long key = ((long long)i << 32) ^ val;
+        if (dp.count(key)) {
+            return dp[key];
+        }
+        // take nums[i]
+        int n_val = (val == -1 ? nums[i] : (val ^ nums[i]));
+        int take = 1 + solve(i + 1, n_val, nums);
+        // skip nums[i]
+        int not_take = solve(i + 1, val, nums);
+        return dp[key] = max(take, not_take);
+    }
+
     int longestSubsequence(vector<int>& nums) {
-        int n = nums.size();
-        int count = (nums[0] == 0 ? 1 : 0);
-        int xor_all = nums[0];
-        for (int i = 1; i < n; i++) {
-            if (nums[i] == 0) {
-                count += 1;
-            }
-            xor_all ^= nums[i];
-        }
-        // if all elements are zero
-        if (xor_all == 0 && count == n) {
-            return 0;
-        }
-        // if all xor is zero remove one else whole array is good
-        return (xor_all > 0 ? n : n - 1);
+        dp.clear();
+        return max(0, solve(0, -1, nums));
     }
 };
