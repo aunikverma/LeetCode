@@ -7,7 +7,8 @@ public:
             mp[i] += 1;
         }
         int ans;
-        if (k == 1 || k == n) {
+        // largest which occurs only once
+        if (k == 1) {
             ans = -1;
             for (auto& v : mp) {
                 if (v.second == 1) {
@@ -15,12 +16,19 @@ public:
                 }
             }
         } else if (k > 1 && k < n) {
+            // either nums[0] or  nums[n - 1]
             if (mp[nums[0]] == mp[nums[n - 1]]) {
                 ans = max(nums[0], nums[n - 1]);
             } else if (mp[nums[0]] > mp[nums[n - 1]]) {
                 ans = nums[n - 1];
             } else {
                 ans = nums[0];
+            }
+        } else if (k == n) {
+            // largest in whole nums
+            ans = -1;
+            for (auto& v : mp) {
+                ans = max(ans, v.first);
             }
         }
         return ans;
