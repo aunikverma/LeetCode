@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int solveTab(vector<int>& stones) {
+    int stoneGameV(vector<int>& stones) {
         int n = stones.size();
         // prefix sum array
         vector<int> prefix(n, 0);
@@ -9,7 +9,6 @@ public:
             prefix[i] = prefix[i - 1] + stones[i];
         }
         vector<vector<int>> dp(n, vector<int>(n, 0));
-
         for (int l = n - 1; l >= 0; l--) {
             for (int r = 0; r < n; r++) {
                 if (l >= r) {
@@ -32,9 +31,5 @@ public:
             }
         }
         return dp[0][n - 1];
-    }
-
-    int stoneGameV(vector<int>& stones) { 
-        return solveTab(stones); 
     }
 };
