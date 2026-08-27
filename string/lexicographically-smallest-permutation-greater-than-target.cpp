@@ -18,9 +18,8 @@ public:
             if (greater == false && c < target[i]) {
                 continue;
             }
-
-            bool isGreater = (greater || c > target[i]);
             // push
+            bool isGreater = (greater || c > target[i]);
             curr.push_back(c);
             count[c - 'a'] -= 1;
 
