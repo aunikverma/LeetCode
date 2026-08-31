@@ -41,7 +41,7 @@ public:
             curr = curr->next;
         }
         int max_dist = (c - f);
-        if (first_critical == -1 || min_dist == INT_MAX || max_dist == 0) {
+        if (f == -1 || min_dist == INT_MAX || max_dist == 0) {
             return {-1, -1};
         }
         return {min_dist, max_dist};
