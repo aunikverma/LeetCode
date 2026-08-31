@@ -44,10 +44,11 @@ public:
             prev = curr;
             curr = curr->next;
         }
-        if (first_critical == -1) {
+        int max_dist = (curr_critical - first_critical);
+        if (first_critical == -1 || min_dist == INT_MAX || max_dist == 0) {
             return {-1, -1};
         }
-        int max_dist = (curr_critical - first_critical);
+
         return {min_dist, max_dist};
     }
 };
