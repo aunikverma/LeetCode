@@ -11,10 +11,9 @@
 class Solution {
 public:
     vector<int> nodesBetweenCriticalPoints(ListNode* head) {
-        int first_critical = -1;
-        int prev_critical = -1;
+        // first, prev,curr critical points
+        int f = -1, p = -1, c = -1;
         int min_dist = INT_MAX;
-        int curr_critical = -1;
 
         ListNode* prev = NULL;
         ListNode* curr = head;
@@ -22,21 +21,18 @@ public:
 
         while (curr) {
             if (prev && curr->next) {
-                int prev_val = prev->val;
-                int curr_val = curr->val;
-                int next_val = curr->next->val;
+                int p_val = prev->val;
+                int c_val = curr->val;
+                int n_val = curr->next->val;
 
-                if ((curr_val > prev_val && curr_val > next_val) ||
-                    (curr_val < prev_val && curr_val < next_val)) {
-                    if (first_critical == -1) {
-                        first_critical = i;
-                        curr_critical = i;
-                        prev_critical = i;
+                if ((c_val > p_val && c_val > n_val) ||
+                    (c_val < p_val && c_val < n_val)) {
+                    if (f == -1) {
+                        f = p = c = i;
                     } else {
-                        prev_critical = curr_critical;
-                        curr_critical = i;
-                        min_dist =
-                            min(min_dist, (curr_critical - prev_critical));
+                        p = c;
+                        c = i;
+                        min_dist = min(min_dist, (c - p));
                     }
                 }
             }
@@ -44,11 +40,10 @@ public:
             prev = curr;
             curr = curr->next;
         }
-        int max_dist = (curr_critical - first_critical);
+        int max_dist = (c - f);
         if (first_critical == -1 || min_dist == INT_MAX || max_dist == 0) {
             return {-1, -1};
         }
-
         return {min_dist, max_dist};
     }
 };
