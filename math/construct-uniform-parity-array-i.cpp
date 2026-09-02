@@ -10,6 +10,6 @@ public:
                 even += 1;
             }
         }
-        return (odd == n || even == n || odd == even);
+        return (odd >= 1 || odd == n || even == n);
     }
 };
