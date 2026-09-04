@@ -15,16 +15,13 @@ public:
             maxi = max(maxi, nums[i]);
             auto it = mp.begin();
             int mini = it->first;
-            int freq = it->second;
             // smallest index
             if ((maxi - mini) <= k) {
                 return i;
             }
-            if (mini == nums[i]) {
-                freq -= 1;
-                if (freq == 0) {
-                    mp.erase(mini);
-                }
+            mp[nums[i]] -= 1;
+            if (mp[nums[i]] == 0) {
+                mp.erase(nums[i]);
             }
         }
         return -1;
