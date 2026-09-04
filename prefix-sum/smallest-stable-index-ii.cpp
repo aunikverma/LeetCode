@@ -5,24 +5,16 @@ public:
         if (n == 1) {
             return 0;
         }
-        map<int, int> mp;
-        for (int i : nums) {
-            mp[i] += 1;
+        vector<int> suffixMin(n, 0);
+        suffixMin[n - 1] = nums[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            suffixMin[i] = min(suffixMin[i + 1], nums[i]);
         }
         int maxi = INT_MIN;
         for (int i = 0; i < n; i++) {
-            // curr max
-            maxi = max(maxi, nums[i]);
-            auto it = mp.begin();
-            int mini = it->first;
-            // smallest index
-            if ((maxi - mini) <= k) {
+            maxi = max(nums[i], maxi);
+            if (maxi - suffixMin[i] <= k) {
                 return i;
-            }
-            // removing nums[i]
-            mp[nums[i]] -= 1;
-            if (mp[nums[i]] == 0) {
-                mp.erase(nums[i]);
             }
         }
         return -1;
