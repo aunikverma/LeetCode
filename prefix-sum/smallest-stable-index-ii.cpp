@@ -19,6 +19,7 @@ public:
             if ((maxi - mini) <= k) {
                 return i;
             }
+            // removing nums[i]
             mp[nums[i]] -= 1;
             if (mp[nums[i]] == 0) {
                 mp.erase(nums[i]);
