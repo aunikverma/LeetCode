@@ -20,7 +20,7 @@ public:
             }
             prev = curr;
         }
-        return curr[n];
+        return prev[n];
     }
 
     int numDistinct(string s, string t) { return solveTabSpace(s, t); }
