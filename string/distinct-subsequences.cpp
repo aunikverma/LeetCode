@@ -1,9 +1,10 @@
 class Solution {
 public:
+    typedef unsigned long long ull;
     int solveTab(string& s, string& t) {
         int m = s.length();
         int n = t.length();
-        vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+        vector<vector<ull>> dp(m + 1, vector<ull>(n + 1, 0));
         // base case
         for (int i = 0; i <= m; i++) {
             dp[i][0] = 1;
