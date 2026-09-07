@@ -1,32 +1,25 @@
 class Solution {
 public:
-    int Mod = 1e9 + 7;
-    int n;
-    int solve(int i, int prev, string& s, vector<vector<int>>& dp) {
-        if (i >= n) {
-            return 0;
-        }
-        if (prev != -1 && dp[i][prev] != -1) {
-            return dp[i][prev];
-        }
-        int ans = 0;
-        // if same as prev move forward
-        if (prev != -1 && s[i] == s[prev]) {
-            ans = (ans + solve(i + 1, prev, s, dp)) % Mod;
-        } else {
-            // if not either take it or not take it
-            ans = (ans + solve(i + 1, prev, s, dp)) % Mod;
-            ans = (ans + 1 + solve(i + 1, i, s, dp)) % Mod;
-        }
-        if (prev != -1) {
-            dp[i][prev] = ans;
-        }
-        return ans;
-    }
-
     int distinctSubseqII(string s) {
-        n = s.length();
-        vector<vector<int>> dp(n, vector<int>(n, -1));
-        return solve(0, -1, s, dp);
+        int Mod = 1e9 + 7;
+        int n = s.length();
+        vector<int> dp(n + 1, 0);
+        // empty subsequence
+        dp[0] = 1;
+        unordered_map<char, int> mp;
+        for (int i = 1; i <= n; i++) {
+            char ch = s[i - 1];
+            // either take or not(2 choices)
+            dp[i] = (2 * dp[i - 1]) % Mod;
+            if (mp.count(ch)) {
+                int last_ind = mp[ch];
+                dp[i] = (dp[i] - dp[last_ind - 1] + Mod) % Mod;
+            }
+            // push into map
+            mp[ch] = i;
+        }
+        // exclude empty one
+        dp[n] = (dp[n] - 1 + Mod) % Mod;
+        return dp[n];
     }
 };
