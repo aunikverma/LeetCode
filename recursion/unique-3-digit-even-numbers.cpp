@@ -10,17 +10,16 @@ public:
             if (i & 1) {
                 continue;
             }
-            unordered_map<int, int> mp;
+            vector<int> mp = freq;
             int n = i;
-            while (n > 0) {
-                mp[n % 10] += 1;
-                n /= 10;
-            }
             bool present = true;
-            for (auto& v : mp) {
-                if (freq[v.first] < v.second) {
+            while (n > 0) {
+                mp[n % 10] -= 1;
+                if (mp[n % 10] < 0) {
                     present = false;
+                    break;
                 }
+                n /= 10;
             }
             if (present) {
                 count += 1;
