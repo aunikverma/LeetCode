@@ -2,7 +2,7 @@ class Solution {
 public:
     int n;
     struct Node {
-        long long score = -1;
+        long long score = 0;
         vector<int> inds;
     };
     vector<int> nextInd;
@@ -23,39 +23,6 @@ public:
         return result;
     }
 
-    Node solve(vector<vector<int>>& intervals, int i, int k) {
-        if (k == 0 || i >= n) {
-            return Node();
-        }
-
-        if (t[i][k].score != -1) {
-            return t[i][k];
-        }
-
-        int wt = intervals[i][2];
-        int ind = intervals[i][3];
-        int j = nextInd[i];
-
-        Node skip = solve(intervals, i + 1, k);
-        Node temp = solve(intervals, j, k - 1);
-
-        Node take;
-        take.score = temp.score + wt;
-        take.inds = temp.inds;
-        take.inds.push_back(ind);
-        sort(take.inds.begin(), take.inds.end());
-
-        Node result;
-        if (skip.score > take.score) {
-            result = skip;
-        } else if (skip.score < take.score) {
-            result = take;
-        } else {
-            result = (skip.inds < take.inds ? skip : take);
-        }
-        return t[i][k] = result;
-    }
-
     vector<int> maximumWeight(vector<vector<int>>& intervals) {
         n = intervals.size();
         // added index to map
@@ -72,7 +39,37 @@ public:
         }
         int k = 4;
         t.assign(n + 1, vector<Node>(k + 1));
-        return solve(intervals, 0, k).inds;
+
+        for (int i = n - 1; i >= 0; i--) {
+            for (int k = 4; k >= 0; k--) {
+                if (k == 0) {
+                    continue;
+                }
+                int wt = intervals[i][2];
+                int ind = intervals[i][3];
+                int j = nextInd[i];
+
+                Node skip = t[i + 1][k];
+                Node temp = t[j][k - 1];
+
+                Node take;
+                take.score = temp.score + wt;
+                take.inds = temp.inds;
+                take.inds.push_back(ind);
+                sort(take.inds.begin(), take.inds.end());
+
+                Node result;
+                if (skip.score > take.score) {
+                    result = skip;
+                } else if (skip.score < take.score) {
+                    result = take;
+                } else {
+                    result = (skip.inds < take.inds ? skip : take);
+                }
+                t[i][k] = result;
+            }
+        }
+        return t[0][4].inds;
     }
 };
 // we have to return the lexicographically smallest array of atmost
