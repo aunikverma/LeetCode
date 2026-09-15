@@ -33,6 +33,10 @@ public:
 
     int maxPalindromes(string s, int k) {
         n = s.length();
+        // base case
+        if (k == 1) {
+            return n;
+        }
         vector<vector<int>> dp(n + 1, vector<int>(n + 1, -1));
         return solve(s, k, 0, k - 1, dp);
     }
