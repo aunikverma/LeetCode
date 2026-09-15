@@ -22,6 +22,25 @@ public:
         }
     }
 
+    int solve(int n, int& k, vector<int>& dp, vector<vector<bool>>& is_palindrome) {
+        if (n < k) {
+            return 0;
+        }
+        if (dp[n] != -1) {
+            return dp[n];
+        }
+        int j = n - 1;
+        // skip j th char
+        int ans = solve(j, k, dp, is_palindrome);
+        for (int i = 0; j - i + 1 >= k; i++) {
+            if (is_palindrome[i][j]) {
+                // since is_palindrome[i..j] check left of i
+                ans = max(ans, 1 + solve(i, k, dp, is_palindrome));
+            }
+        }
+        return dp[n] = ans;
+    }
+
     int maxPalindromes(string s, int k) {
         int n = s.length();
         // base case
@@ -32,21 +51,7 @@ public:
         // filling is_palindrome
         fill(is_palindrome, s);
         // dp array
-        vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));
-
-        for (int i = n - 1; i >= 0; i--) {
-            for (int j = n - 1; j >= 0; j--) {
-                if (is_palindrome[i][j]) {
-                    int take = 1 + (j + k <= n ? dp[j + 1][j + k] : 0);
-                    int grow = dp[i][j + 1];
-                    int slide = dp[i + 1][j + 1];
-                    dp[i][j] = max({take, grow, slide});
-                }
-                int grow = dp[i][j + 1];
-                int slide = dp[i + 1][j + 1];
-                dp[i][j] = max({dp[i][j], grow, slide});
-            }
-        }
-        return dp[0][k - 1];
+        vector<int> dp(n + 1, -1);
+        return solve(n, k, dp, is_palindrome);
     }
 };
