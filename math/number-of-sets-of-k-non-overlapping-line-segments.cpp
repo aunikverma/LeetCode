@@ -13,10 +13,10 @@ public:
             return dp[i][k];
         }
         // skip this point
-        int skip = solve(n, k, i + 1, dp) % mod;
-        int take = 0;
+        long long skip = (0LL + solve(n, k, i + 1, dp)) % mod;
+        long long take = 0;
         for (int j = i + 1; j <= n - 1; j++) {
-            take += solve(n, k - 1, j, dp) % mod;
+            take += (0LL + solve(n, k - 1, j, dp)) % mod;
         }
         return dp[i][k] = (skip + take) % mod;
     }
