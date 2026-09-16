@@ -9,6 +9,7 @@ public:
             dp[0][i] = 1;
         }
         for (int k = 1; k <= K; k++) {
+            // suffix sum
             vector<int> PrevRow(n + 1, 0);
             for (int x = n - 1; x >= 0; x--) {
                 PrevRow[x] = (PrevRow[x + 1] + dp[k - 1][x]) % mod;
