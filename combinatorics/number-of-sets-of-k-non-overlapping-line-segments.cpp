@@ -3,22 +3,23 @@ public:
     int mod = 1e9 + 7;
 
     int numberOfSets(int n, int K) {
-        vector<vector<int>> dp(n + 1, vector<int>(K + 1, 0));
+        vector<vector<int>> dp(K + 1, vector<int>(n + 1, 0));
         // base case
         for (int i = 0; i < n; i++) {
-            dp[i][0] = 1;
+            dp[0][i] = 1;
         }
-        for (int i = n - 1; i >= 0; i--) {
-            for (int k = 1; k <= K; k++) {
-                long long skip = dp[i + 1][k] % mod;
-                long long take = 0;
-                for (int j = i + 1; j <= n - 1; j++) {
-                    take += dp[j][k - 1] % mod;
-                }
-                dp[i][k] = (skip + take) % mod;
+        for (int k = 1; k <= K; k++) {
+            vector<int> PrevRow(n + 1, 0);
+            for (int x = n - 1; x >= 0; x--) {
+                PrevRow[x] = (PrevRow[x + 1] + dp[k - 1][x]) % mod;
+            }
+            for (int i = n - 1; i >= 0; i--) {
+                int skip = dp[k][i + 1] % mod;
+                int take = PrevRow[i + 1];
+                dp[k][i] = (skip + take) % mod;
             }
         }
-        return dp[0][K];
+        return dp[K][0];
     }
 };
 // since we can start from ith point and end at any j = i + 1 <= n - 1
