@@ -11,17 +11,16 @@ public:
         for (int r = 0; r < n; r++) {
             curr_sum += arr[r];
             // shrink
-            while (curr_sum > target) {
+            while (l < r && curr_sum > target) {
                 curr_sum -= arr[l];
                 l++;
             }
             if (curr_sum == target) {
-                if (r - 1 >= 0 && min_len[r - 1] != INT_MAX) {
-                    ans = min(ans, (r - l + 1) + min_len[r - 1]);
+                if (l > 0 && min_len[l - 1] != INT_MAX) {
+                    ans = min(ans, (r - l + 1) + min_len[l - 1]);
                 }
                 best_min = min(best_min, r - l + 1);
             }
-
             min_len[r] = best_min;
         }
         return (ans != INT_MAX ? ans : -1);
