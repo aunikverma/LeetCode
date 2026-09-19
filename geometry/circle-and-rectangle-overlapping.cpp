@@ -6,9 +6,11 @@ public:
         int xi;
         int yi;
 
+        // right
         if (x1 > xCenter) {
             xi = x1;
         } else if (x2 < xCenter) {
+            // left
             xi = x2;
         } else {
             xi = xCenter;
