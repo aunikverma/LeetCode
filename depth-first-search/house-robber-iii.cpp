@@ -11,30 +11,27 @@
  * };
  */
 class Solution {
-private:
+public:
     pair<int, int> solve(TreeNode* root) {
-        if (root == NULL) {
-            pair<int, int> ans(0, 0);
-            return ans;
+        if (!root) {
+            return {0, 0};
         }
 
         pair<int, int> lefty = solve(root->left);
         pair<int, int> righty = solve(root->right);
 
         pair<int, int> ans;
-
+        // if you rob this house
         ans.first = root->val + lefty.second + righty.second;
-
+        // if you dont rob this
+        // we have options to rob its child or not
         ans.second =
             max(lefty.first, lefty.second) + max(righty.first, righty.second);
-
         return ans;
     }
 
-public:
     int rob(TreeNode* root) {
-        pair<int, int> ans; // same as sumof two non-adjacent nodes in gfg
-        ans = solve(root);
+        auto ans = solve(root);
         return max(ans.first, ans.second);
     }
 };

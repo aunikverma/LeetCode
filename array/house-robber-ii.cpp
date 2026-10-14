@@ -1,50 +1,26 @@
 class Solution {
 public:
-    // int t[101];
-    // int solve(int i, int endInd, vector<int>& nums) {
-    //     if (i > endInd) {
-    //         return 0;
-    //     }
-    //     if (t[i] != -1) {
-    //         return t[i];
-    //     }
-    //     int take = nums[i] + solve(i + 2, endInd, nums);
-    //     int not_take = solve(i + 1, endInd, nums);
-    //     return t[i] = max(take, not_take);
-    // }
-
-    int solveTab(vector<int>& nums) {
-        int n = nums.size();
-        int prev = 0, next = 0, curr = 0;
-        int prev1 = 0, next1 = 0, curr1 = 0;
-        for (int i = n - 2; i >= 0; i--) {
-            int take = nums[i] + next;
-            int not_take = curr;
-            prev = max(take, not_take);
-            next = curr;
-            curr = prev;
+    int solve(vector<int>& nums, int s, int e) {
+        int n = s - e + 1;
+        int next = max(nums[e], nums[e - 1]); // dp[i + 1]
+        int next_n = nums[e];                 // dp[i + 2]
+        for (int i = e - 2; i >= s; i--) {
+            int take = nums[i] + next_n;
+            int skip = next;
+            next_n = next;
+            next = max(take, skip);
         }
-        for (int i = n - 1; i >= 1; i--) {
-            int take = nums[i] + next1;
-            int not_take = curr1;
-            prev1 = max(take, not_take);
-            next1 = curr1;
-            curr1 = prev1;
-        }
-        return max(curr, curr1);
+        return next;
     }
+
     int rob(vector<int>& nums) {
         int n = nums.size();
         if (n == 1) {
             return nums[0];
         }
-        // // rob 0th house
-        // memset(t, -1, sizeof(t));
-        // int case1 = solve(0, n - 2, nums);
-        // // rob 1st house
-        // memset(t, -1, sizeof(t));
-        // int case2 = solve(1, n - 1, nums);
-        // return max(case1, case2);
-        return solveTab(nums);
+        if (n == 2) {
+            return max(nums[0], nums[1]);
+        }
+        return max(solve(nums, 0, n - 2), solve(nums, 1, n - 1));
     }
 };

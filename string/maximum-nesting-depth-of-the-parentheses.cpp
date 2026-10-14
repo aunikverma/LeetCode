@@ -5,7 +5,7 @@ public:
         for (char c : s) {
             if (c == '(') {
                 balance++;
-            } else if(c == ')'){
+            } else if (c == ')') {
                 balance--;
             }
             ans = max(ans, balance);
